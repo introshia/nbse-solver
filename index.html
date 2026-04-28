@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NBS Solver</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.11.0/math.min.js"></script>
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="logo">
+      <span class="logo-icon">∫</span>
+      <div>
+        <h1>NBS Solver</h1>
+        <p class="logo-sub">Numerical Methods</p>
+      </div>
+    </div>
+
+    <nav class="nav">
+      <p class="nav-section-label">Methods</p>
+      <button class="nav-btn active" data-method="newton">
+        <span class="nav-icon">∂</span>
+        <div class="nav-text">
+          <span class="nav-title">Newton's Method</span>
+          <span class="nav-desc">Fast convergence via derivative</span>
+        </div>
+      </button>
+      <button class="nav-btn" data-method="bisection">
+        <span class="nav-icon">⟂</span>
+        <div class="nav-text">
+          <span class="nav-title">Bisection Method</span>
+          <span class="nav-desc">Bracket-based, always converges</span>
+        </div>
+      </button>
+      <button class="nav-btn" data-method="secant">
+        <span class="nav-icon">∥</span>
+        <div class="nav-text">
+          <span class="nav-title">Secant Method</span>
+          <span class="nav-desc">No derivative needed, fast</span>
+        </div>
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <p>Numerical Analysis</p>
+      <p>Root-Finding Algorithms</p>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+
+    <!-- TOP BAR -->
+    <div class="topbar">
+      <div class="method-badge" id="methodBadge">Newton's Method</div>
+      <div class="topbar-info">
+        <span id="iterCount">— iterations</span>
+        <span id="rootDisplay">Root: —</span>
+      </div>
+    </div>
+
+    <!-- PANELS ROW -->
+    <div class="panels">
+
+      <!-- FUNCTION PANEL -->
+      <section class="panel panel-function">
+        <div class="panel-header">
+          <h2>Function</h2>
+          <span class="panel-tag">f(x)</span>
+        </div>
+
+        <div class="steps-indicator">
+          <div class="step active" id="step1"><span class="step-num">1</span><span class="step-label">Enter f(x)</span></div>
+          <div class="step-line"></div>
+          <div class="step" id="step2"><span class="step-num">2</span><span class="step-label">Set params</span></div>
+          <div class="step-line"></div>
+          <div class="step" id="step3"><span class="step-num">3</span><span class="step-label">Solve!</span></div>
+        </div>
+
+        <div class="input-group">
+          <label>f(x) =</label>
+          <input type="text" id="funcInput" placeholder="e.g. x^3 - x - 2" />
+          <span class="hint">Use ^ for power, * for multiply</span>
+        </div>
+
+        <!-- Newton Inputs -->
+        <div class="method-inputs" id="inputs-newton">
+          <div class="input-group">
+            <label>f'(x) = <span class="optional">(optional — auto if blank)</span></label>
+            <input type="text" id="derivInput" placeholder="e.g. 3*x^2 - 1" />
+          </div>
+          <div class="input-row">
+            <div class="input-group">
+              <label>x₀ (Initial Guess)</label>
+              <input type="number" id="newtonX0" placeholder="e.g. 1.5" step="any" />
+            </div>
+            <div class="input-group">
+              <label>Tolerance</label>
+              <input type="number" id="newtonTol" placeholder="1e-6" step="any" value="0.000001" />
+            </div>
+            <div class="input-group">
+              <label>Max Iterations</label>
+              <input type="number" id="newtonMax" placeholder="100" value="50" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Bisection Inputs -->
+        <div class="method-inputs hidden" id="inputs-bisection">
+          <div class="input-row">
+            <div class="input-group">
+              <label>a (Lower Bound)</label>
+              <input type="number" id="bisA" placeholder="e.g. 1" step="any" />
+            </div>
+            <div class="input-group">
+              <label>b (Upper Bound)</label>
+              <input type="number" id="bisB" placeholder="e.g. 2" step="any" />
+            </div>
+          </div>
+          <div class="input-row">
+            <div class="input-group">
+              <label>Tolerance</label>
+              <input type="number" id="bisTol" placeholder="1e-6" step="any" value="0.000001" />
+            </div>
+            <div class="input-group">
+              <label>Max Iterations</label>
+              <input type="number" id="bisMax" placeholder="100" value="50" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Secant Inputs -->
+        <div class="method-inputs hidden" id="inputs-secant">
+          <div class="input-row">
+            <div class="input-group">
+              <label>x₀ (First Guess)</label>
+              <input type="number" id="secX0" placeholder="e.g. 1" step="any" />
+            </div>
+            <div class="input-group">
+              <label>x₁ (Second Guess)</label>
+              <input type="number" id="secX1" placeholder="e.g. 2" step="any" />
+            </div>
+          </div>
+          <div class="input-row">
+            <div class="input-group">
+              <label>Tolerance</label>
+              <input type="number" id="secTol" placeholder="1e-6" step="any" value="0.000001" />
+            </div>
+            <div class="input-group">
+              <label>Max Iterations</label>
+              <input type="number" id="secMax" placeholder="100" value="50" />
+            </div>
+          </div>
+        </div>
+
+        <div class="result-box" id="resultBox">
+          <div class="result-item">
+            <span class="result-label">Root (x)</span>
+            <span class="result-value" id="resRoot">—</span>
+          </div>
+          <div class="result-item">
+            <span class="result-label">f(x)</span>
+            <span class="result-value" id="resFx">—</span>
+          </div>
+          <div class="result-item">
+            <span class="result-label">Iterations</span>
+            <span class="result-value" id="resIter">—</span>
+          </div>
+          <div class="result-item">
+            <span class="result-label">Error</span>
+            <span class="result-value" id="resError">—</span>
+          </div>
+        </div>
+
+        <div class="error-msg hidden" id="errorMsg"></div>
+
+        <div class="panel-footer">
+          <button class="btn-clear" id="clearBtn">↺ Clear</button>
+          <button class="btn-solve" id="solveBtn">Solve!</button>
+        </div>
+
+      </section>
+
+      <!-- RIGHT COLUMN -->
+      <div class="right-col">
+
+        <!-- GRAPH PANEL -->
+        <section class="panel panel-graph">
+          <div class="panel-header">
+            <h2>Graph</h2>
+            <div class="graph-controls">
+              <button class="graph-btn" id="zoomIn" title="Zoom In">+</button>
+              <button class="graph-btn" id="zoomOut" title="Zoom Out">−</button>
+              <button class="graph-btn" id="resetView" title="Reset">⌂</button>
+            </div>
+          </div>
+          <div class="canvas-wrap">
+            <canvas id="graphCanvas"></canvas>
+            <div class="canvas-placeholder" id="canvasPlaceholder">
+              <div class="placeholder-icon">
+                <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <line x1="4" y1="24" x2="44" y2="24" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+                  <line x1="24" y1="4" x2="24" y2="44" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+                  <path d="M8 36 Q16 10 24 24 Q32 38 40 12" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+                  <circle cx="24" cy="24" r="3" fill="currentColor" opacity="0.5"/>
+                </svg>
+              </div>
+              <p class="placeholder-title">Graph Preview</p>
+              <p class="placeholder-sub">Enter a function and hit <strong>Solve!</strong> to plot the curve and root</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ITERATIONS TABLE -->
+        <section class="panel panel-table">
+          <div class="panel-header">
+            <h2>Iterations</h2>
+            <span class="panel-tag" id="tableTag">—</span>
+          </div>
+          <div class="table-wrap">
+            <table id="iterTable">
+              <thead id="tableHead"></thead>
+              <tbody id="tableBody">
+                <tr class="empty-row">
+                  <td colspan="5">No data yet — solve a function to see iterations.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
