@@ -1,0 +1,43 @@
+# ==========================================
+# NBS Root Solver - System Requirements
+# ==========================================
+
+This project is a lightweight, frontend-only web application. It does not require a complex backend environment to run. 
+
+------------------------------------------
+1. END-USER REQUIREMENTS (To just use the app)
+------------------------------------------
+- Operating System: Any (Windows, macOS, Linux, iOS, Android)
+- Web Browser: Any modern browser (Chrome, Firefox, Safari, Edge)
+- Internet Connection: Required (to load the Math.js library via CDN)
+- Hardware: No special requirements.
+
+------------------------------------------
+2. DEVELOPER REQUIREMENTS (To edit, test, or host)
+------------------------------------------
+If you want to modify the code, run the automated tests, or run a local server, you will need the following installed on your machine:
+
+- Node.js (v14.0.0 or higher recommended)
+- npm (Node Package Manager - comes with Node.js)
+
+------------------------------------------
+3. LIBRARIES & DEPENDENCIES USED
+------------------------------------------
+[Frontend Dependencies]
+- Math.js (v11.11.0) - Loaded externally via CDN in index.html for expression parsing and symbolic derivatives.
+- Google Fonts - 'JetBrains Mono' and 'Sora' loaded via CSS import.
+
+[Development Dependencies]
+These are managed automatically via the `package.json` file. Running `npm install` will download them.
+- serve (^14.2.4): For hosting the local development server.
+- jest (^30.3.0): For running automated mathematical unit tests.
+- jest-environment-jsdom: For Jest DOM environment support.
+- mathjs (^15.2.0): Local copy used strictly for Jest testing.
+
+------------------------------------------
+HOW TO INSTALL DEV REQUIREMENTS:
+------------------------------------------
+1. Open your terminal in the project folder.
+2. Run the command: `npm install`
+3. To start the server, run: `npm start`
+4. To run tests, run: `npm test`

@@ -1,0 +1,27 @@
+{
+  "name": "nbs-root-solver",
+  "version": "1.0.0",
+  "description": "A premium web application for numerical root-finding.",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve .",
+    "test": "jest"
+  },
+  "keywords": [
+    "numerical-methods",
+    "root-finding",
+    "newton-method",
+    "bisection-method",
+    "secant-method",
+    "math",
+    "graphing"
+  ],
+  "author": "John Benedict Tandoc",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^30.3.0",
+    "jest-environment-jsdom": "^30.3.0",
+    "mathjs": "^15.2.0",
+    "serve": "^14.2.4"
+  }
+}

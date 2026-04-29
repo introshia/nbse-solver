@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>NBS Solver</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="assets/css/style.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.11.0/math.min.js"></script>
 </head>
+
 <body>
 
   <!-- SIDEBAR -->
@@ -56,9 +58,10 @@
     <!-- TOP BAR -->
     <div class="topbar">
       <div class="method-badge" id="methodBadge">Newton's Method</div>
-      <div class="topbar-info">
+      <div class="topbar-info" style="align-items: center;">
         <span id="iterCount">— iterations</span>
         <span id="rootDisplay">Root: —</span>
+        <button class="graph-btn" id="themeToggle" title="Toggle Theme" style="margin-left: 10px;">☀️</button>
       </div>
     </div>
 
@@ -73,7 +76,8 @@
         </div>
 
         <div class="steps-indicator">
-          <div class="step active" id="step1"><span class="step-num">1</span><span class="step-label">Enter f(x)</span></div>
+          <div class="step active" id="step1"><span class="step-num">1</span><span class="step-label">Enter f(x)</span>
+          </div>
           <div class="step-line"></div>
           <div class="step" id="step2"><span class="step-num">2</span><span class="step-label">Set params</span></div>
           <div class="step-line"></div>
@@ -82,8 +86,13 @@
 
         <div class="input-group">
           <label>f(x) =</label>
-          <input type="text" id="funcInput" placeholder="e.g. x^3 - x - 2" />
-          <span class="hint">Use ^ for power, * for multiply</span>
+          <input type="text" id="funcInput" list="funcHistory" placeholder="e.g. x^3 - x - 2" autocomplete="off" />
+          <datalist id="funcHistory">
+            <option value="x^3 - x - 2"></option>
+            <option value="cos(x) - x"></option>
+            <option value="exp(-x) - x"></option>
+          </datalist>
+          <span class="hint" id="funcHint">Use ^ for power, * for multiply</span>
         </div>
 
         <!-- Newton Inputs -->
@@ -202,10 +211,13 @@
             <div class="canvas-placeholder" id="canvasPlaceholder">
               <div class="placeholder-icon">
                 <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <line x1="4" y1="24" x2="44" y2="24" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
-                  <line x1="24" y1="4" x2="24" y2="44" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
-                  <path d="M8 36 Q16 10 24 24 Q32 38 40 12" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
-                  <circle cx="24" cy="24" r="3" fill="currentColor" opacity="0.5"/>
+                  <line x1="4" y1="24" x2="44" y2="24" stroke="currentColor" stroke-width="1.5"
+                    stroke-dasharray="3 3" />
+                  <line x1="24" y1="4" x2="24" y2="44" stroke="currentColor" stroke-width="1.5"
+                    stroke-dasharray="3 3" />
+                  <path d="M8 36 Q16 10 24 24 Q32 38 40 12" stroke="currentColor" stroke-width="2" fill="none"
+                    stroke-linecap="round" />
+                  <circle cx="24" cy="24" r="3" fill="currentColor" opacity="0.5" />
                 </svg>
               </div>
               <p class="placeholder-title">Graph Preview</p>
@@ -218,7 +230,10 @@
         <section class="panel panel-table">
           <div class="panel-header">
             <h2>Iterations</h2>
-            <span class="panel-tag" id="tableTag">—</span>
+            <div style="display:flex; gap:8px; align-items:center;">
+              <span class="panel-tag" id="tableTag">—</span>
+              <button class="graph-btn" id="exportCsvBtn" title="Export CSV" style="width:24px;height:24px;font-size:12px;">↓</button>
+            </div>
           </div>
           <div class="table-wrap">
             <table id="iterTable">
@@ -236,6 +251,7 @@
     </div>
   </main>
 
-  <script src="script.js"></script>
+  <script src="assets/js/script.js"></script>
 </body>
+
 </html>
