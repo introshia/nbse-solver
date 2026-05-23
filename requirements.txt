@@ -1,15 +1,15 @@
 # ==========================================
-# NBS Root Solver - System Requirements
+# NBSE Solver - System Requirements
 # ==========================================
 
-This project is a lightweight, frontend-only web application. It does not require a complex backend environment to run. 
+This project is a lightweight, frontend-only web application. It does not require a complex backend environment to run.
 
 ------------------------------------------
 1. END-USER REQUIREMENTS (To just use the app)
 ------------------------------------------
 - Operating System: Any (Windows, macOS, Linux, iOS, Android)
 - Web Browser: Any modern browser (Chrome, Firefox, Safari, Edge)
-- Internet Connection: Required (to load the Math.js library via CDN)
+- Internet Connection: Required (to load the Math.js library and Google Fonts via CDN)
 - Hardware: No special requirements.
 
 ------------------------------------------
@@ -41,3 +41,11 @@ HOW TO INSTALL DEV REQUIREMENTS:
 2. Run the command: `npm install`
 3. To start the server, run: `npm start`
 4. To run tests, run: `npm test`
+
+------------------------------------------
+4. NUMERICAL METHODS INCLUDED
+------------------------------------------
+- Newton's Method     : Root-finding via derivative (f(x) = 0)
+- Bisection Method    : Root-finding via interval bracketing (f(x) = 0)
+- Secant Method       : Root-finding without explicit derivative (f(x) = 0)
+- Euler's Method      : ODE approximation for dy/dt = f(t, y)

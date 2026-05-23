@@ -1,7 +1,7 @@
 {
-  "name": "nbs-root-solver",
+  "name": "nbse-solver",
   "version": "1.0.0",
-  "description": "A premium web application for numerical root-finding.",
+  "description": "A premium web application for numerical methods — root-finding and ODE solving.",
   "main": "index.html",
   "scripts": {
     "start": "npx serve .",
@@ -10,9 +10,11 @@
   "keywords": [
     "numerical-methods",
     "root-finding",
+    "ode-solver",
     "newton-method",
     "bisection-method",
     "secant-method",
+    "euler-method",
     "math",
     "graphing"
   ],
