@@ -49,7 +49,7 @@ body.light-mode {
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:14px;line-height:1.6;overflow:hidden;}
-body{display:flex;height:100vh;overflow:hidden;}
+body{display:flex;height:100vh;overflow:hidden;min-width:680px;}
 
 /* SIDEBAR */
 .sidebar{width:240px;min-width:240px;background:linear-gradient(180deg,var(--bg-2) 0%,var(--bg) 100%);border-right:1px solid var(--panel-border);display:flex;flex-direction:column;padding:28px 0;gap:24px;contain:layout style;}
@@ -74,9 +74,9 @@ body{display:flex;height:100vh;overflow:hidden;}
 .main{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);padding:20px;gap:16px;}
 .topbar{display:flex;align-items:center;justify-content:space-between;padding:0 4px;}
 .method-badge{font-size:13px;font-weight:600;color:var(--mc);background:var(--mc-glow);border:1px solid var(--mc-border);padding:4px 14px;border-radius:99px;letter-spacing:0.3px;transition:color var(--tr),background var(--tr),border-color var(--tr);}
-.topbar-info{display:flex;gap:20px;align-items:center;font-size:12px;color:var(--text-3);font-family:var(--font-mono);}
+.topbar-info{display:flex;gap:20px;align-items:center;font-size:10px;color:var(--text-3);font-family:var(--font-mono);}
 .topbar-info span{color:var(--text-2);}
-.panels{display:grid;grid-template-columns:380px 1fr;gap:16px;flex:1;overflow:hidden;min-height:0;}
+.panels{display:grid;grid-template-columns:minmax(300px,380px) 1fr;gap:16px;flex:1;overflow:hidden;min-height:0;}
 .panel{background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:var(--radius);display:flex;flex-direction:column;overflow:hidden;contain:layout style;}
 .panel-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px;border-bottom:1px solid var(--panel-border);}
 .panel-header h2{font-size:15px;font-weight:600;letter-spacing:-0.2px;}
@@ -94,9 +94,10 @@ body{display:flex;height:100vh;overflow:hidden;}
 .step-line{flex:1;height:1px;background:var(--panel-border);margin:0 8px;}
 
 /* FUNCTION PANEL */
-.panel-function{overflow-y:auto;}
-.panel-function::-webkit-scrollbar{width:4px;}
-.panel-function::-webkit-scrollbar-thumb{background:var(--panel-border);border-radius:4px;}
+.panel-function{overflow:hidden;}
+.panel-scroll{flex:1;overflow-y:auto;min-height:0;padding-bottom:12px;}
+.panel-scroll::-webkit-scrollbar{width:4px;}
+.panel-scroll::-webkit-scrollbar-thumb{background:var(--panel-border);border-radius:4px;}
 .euler-formula-bar{margin:12px 20px 0;padding:10px 14px;background:rgba(167,139,250,0.08);border:1px solid rgba(167,139,250,0.2);border-radius:var(--radius-sm);font-family:var(--font-mono);font-size:12px;color:var(--accent-4);display:none;}
 .euler-formula-bar.visible{display:block;}
 
@@ -116,7 +117,7 @@ body{display:flex;height:100vh;overflow:hidden;}
 .input-group input::placeholder{color:var(--text-3);}
 .input-group input.error{border-color:var(--danger);background:rgba(248,113,113,0.06);}
 .input-group input.valid{border-color:var(--success);}
-.hint{font-size:11px;color:var(--text-3);font-family:var(--font-mono);}
+.hint{font-size:10px;color:var(--text-3);font-family:var(--font-mono);}
 .input-row{display:grid;grid-template-columns:1fr 1fr;gap:0 8px;}
 .method-inputs.hidden{display:none;}
 
@@ -228,7 +229,7 @@ body{display:flex;height:100vh;overflow:hidden;}
 .result-value{display:block;font-family:var(--font-mono);font-size:13px;color:var(--mc);font-weight:500;word-break:break-all;transition:color var(--tr);}
 
 /* PANEL FOOTER */
-.panel-footer{display:flex;gap:10px;padding:14px 20px;margin-top:auto;border-top:1px solid var(--panel-border);background:var(--bg-2);}
+.panel-footer{display:flex;gap:10px;padding:14px 20px;border-top:1px solid var(--panel-border);background:var(--bg-2);}
 .btn-solve{flex:1;padding:11px 20px;background:linear-gradient(135deg,var(--mc),#0891b2);color:#fff;border:none;border-radius:var(--radius-sm);font-family:var(--font-body);font-size:14px;font-weight:700;cursor:pointer;letter-spacing:0.5px;text-transform:uppercase;box-shadow:0 4px 16px var(--mc-btn-shadow);transition:transform var(--tr),filter var(--tr),box-shadow var(--tr);will-change:transform;}
 .btn-solve:hover{transform:translateY(-1px);filter:brightness(1.1);box-shadow:0 6px 24px var(--mc-btn-hover);}
 .btn-solve:active{transform:translateY(0);}
@@ -276,11 +277,34 @@ tbody td.highlight{color:var(--success);font-weight:600;}
 @keyframes popIn{0%{opacity:0;transform:scale(.95);}100%{opacity:1;transform:none;}}
 .result-value.animate{animation:popIn 0.3s ease forwards;}
 
+/* ── Medium: sidebar narrows, panels compress ── */
+@media(max-width:1100px){
+  .sidebar{width:200px;min-width:200px;}
+  .nav-desc{display:none;}
+  .panels{grid-template-columns:minmax(280px,340px) 1fr;}
+}
+
+/* ── Small: stack vertically, full scroll ── */
 @media(max-width:900px){
-  .panels{grid-template-columns:1fr;overflow-y:auto;}
-  body,html{overflow:auto;}
-  .main{overflow-y:auto;}
-  .right-col{min-height:500px;}
+  html,body{height:auto;overflow:auto;}
+  body{flex-direction:column;height:auto;min-height:100vh;overflow-y:auto;}
+  .sidebar{
+    width:100%;min-width:unset;flex-direction:row;
+    padding:12px 16px;gap:0;
+    border-right:none;border-bottom:1px solid var(--panel-border);
+    align-items:center;flex-wrap:wrap;
+  }
+  .logo{flex-shrink:0;}
+  .nav{flex-direction:row;flex-wrap:wrap;padding:0;gap:4px;flex:1;justify-content:flex-end;}
+  .nav-section-label{display:none;}
+  .nav-btn{padding:6px 10px;font-size:12px;}
+  .nav-desc{display:none;}
+  #themeToggle{width:auto;padding:6px 12px;margin-left:8px;}
+  #themeLabel{display:none;}
+  .main{overflow:visible;height:auto;}
+  .panels{grid-template-columns:1fr;overflow:visible;height:auto;}
+  .right-col{min-height:400px;}
+  .panel-table{max-height:300px;}
 }
 </style>
 </head>
@@ -314,19 +338,21 @@ tbody td.highlight{color:var(--success);font-weight:600;}
       <div class="nav-text"><span class="nav-title">Euler's Method</span><span class="nav-desc">Step-wise ODE approximation</span></div>
     </button>
   </nav>
-  <div class="sidebar-footer">
-    <p>Numerical Analysis</p>
-    <p>Root-Finding + ODE Algorithms</p>
+
+  <div style="padding:16px 24px;border-top:1px solid var(--panel-border);margin-top:auto;">
+    <button id="themeToggle" title="Toggle Theme" style="display:flex;align-items:center;gap:8px;width:100%;padding:8px 10px;background:transparent;border:1px solid var(--panel-border);border-radius:var(--radius-sm);color:var(--text-2);font-family:var(--font-body);font-size:12px;font-weight:500;cursor:pointer;transition:background var(--tr),color var(--tr),border-color var(--tr);">
+      <span id="themeIcon"></span>
+      <span id="themeLabel">Light Mode</span>
+    </button>
   </div>
+
 </aside>
 
 <main class="main">
   <div class="topbar">
-    <div class="method-badge" id="methodBadge">Newton's Method</div>
     <div class="topbar-info" style="align-items:center;">
       <span id="iterCount">— iterations</span>
       <span id="rootDisplay">Root: —</span>
-      <button class="graph-btn" id="themeToggle" title="Toggle Theme" style="margin-left:10px;"></button>
     </div>
   </div>
 
@@ -344,6 +370,8 @@ tbody td.highlight{color:var(--success);font-weight:600;}
         <div class="step-line"></div>
         <div class="step" id="step3"><span class="step-num">3</span><span class="step-label">Solve!</span></div>
       </div>
+
+      <div class="panel-scroll">
 
       <div class="euler-formula-bar" id="eulerFormulaBar">
         y<sub>n+1</sub> = y<sub>n</sub> + h · f(t<sub>n</sub>, y<sub>n</sub>)&nbsp;&nbsp;|&nbsp;&nbsp;x<sub>n+1</sub> = x<sub>n</sub> + h
@@ -698,6 +726,8 @@ tbody td.highlight{color:var(--success);font-weight:600;}
 
       <div class="error-msg hidden" id="errorMsg"></div>
 
+      </div><!-- end panel-scroll -->
+
       <div class="panel-footer">
         <button class="btn-clear" id="clearBtn">↺ Clear</button>
         <button class="btn-solve" id="solveBtn">Solve!</button>
@@ -807,7 +837,6 @@ document.querySelectorAll('.nav-btn').forEach(btn=>{
     btn.classList.add('active');
     applyMethodTheme(currentMethod);
     const cfg=METHOD_CONFIG[currentMethod];
-    $('methodBadge').textContent=cfg.label;
     $('panelTag').textContent=cfg.panelTag;
     $('graphTitle').textContent=cfg.graphTitle;
     ['resLabel1','resLabel2','resLabel3','resLabel4'].forEach((id,i)=>$(id).textContent=cfg.res[i]);
@@ -1325,10 +1354,18 @@ function clearAll(){
 const themeBtn=$('themeToggle');
 const ICON_SUN=`<svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="7.5" cy="7.5" r="2.5"/><line x1="7.5" y1="1" x2="7.5" y2="2.5"/><line x1="7.5" y1="12.5" x2="7.5" y2="14"/><line x1="1" y1="7.5" x2="2.5" y2="7.5"/><line x1="12.5" y1="7.5" x2="14" y2="7.5"/><line x1="2.93" y1="2.93" x2="3.99" y2="3.99"/><line x1="11.01" y1="11.01" x2="12.07" y2="12.07"/><line x1="12.07" y1="2.93" x2="11.01" y2="3.99"/><line x1="3.99" y1="11.01" x2="2.93" y2="12.07"/></svg>`;
 const ICON_MOON=`<svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 9.5a6 6 0 1 1-7-7 4.5 4.5 0 0 0 7 7z"/></svg>`;
-function setTheme(light){document.body.classList.toggle('light-mode',light);themeBtn.innerHTML=light?ICON_MOON:ICON_SUN;localStorage.setItem('nbsTheme',light?'light':'dark');scheduleRender();}
+function setTheme(light){
+  document.body.classList.toggle('light-mode',light);
+  $('themeIcon').innerHTML=light?ICON_MOON:ICON_SUN;
+  $('themeLabel').textContent=light?'Dark Mode':'Light Mode';
+  localStorage.setItem('nbsTheme',light?'light':'dark');
+  scheduleRender();
+}
 themeBtn.addEventListener('click',()=>setTheme(!document.body.classList.contains('light-mode')));
+themeBtn.addEventListener('mouseenter',()=>{themeBtn.style.background='var(--bg-3)';themeBtn.style.borderColor='var(--mc-border)';themeBtn.style.color='var(--text)';});
+themeBtn.addEventListener('mouseleave',()=>{themeBtn.style.background='';themeBtn.style.borderColor='';themeBtn.style.color='';});
 if(localStorage.getItem('nbsTheme')==='light') setTheme(true);
-else themeBtn.innerHTML=ICON_SUN;
+else{$('themeIcon').innerHTML=ICON_SUN;$('themeLabel').textContent='Light Mode';}
 
 /* ─── Init ─── */
 applyMethodTheme('newton');
