@@ -1,5 +1,5 @@
 {
-  "name": "nbse-solver",
+  "name": "NBSE_Solver",
   "version": "1.0.0",
   "description": "A premium web application for numerical methods — root-finding and ODE solving.",
   "main": "index.html",
