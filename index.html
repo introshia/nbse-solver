@@ -350,7 +350,8 @@ tbody td.highlight{color:var(--success);font-weight:600;}
 
 <main class="main">
   <div class="topbar">
-    <div class="topbar-info" style="align-items:center;">
+    <div class="method-badge" id="methodBadge">Newton's Method</div>
+    <div class="topbar-info" style="align-items:center;margin-left:auto;">
       <span id="iterCount">— iterations</span>
       <span id="rootDisplay">Root: —</span>
     </div>
@@ -837,6 +838,7 @@ document.querySelectorAll('.nav-btn').forEach(btn=>{
     btn.classList.add('active');
     applyMethodTheme(currentMethod);
     const cfg=METHOD_CONFIG[currentMethod];
+    $('methodBadge').textContent=cfg.label;
     $('panelTag').textContent=cfg.panelTag;
     $('graphTitle').textContent=cfg.graphTitle;
     ['resLabel1','resLabel2','resLabel3','resLabel4'].forEach((id,i)=>$(id).textContent=cfg.res[i]);
