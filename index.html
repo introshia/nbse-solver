@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>NBS Solver — Numerical Methods</title>
+<title>NBSE Solver — Numerical Methods</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.11.0/math.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
@@ -290,7 +290,7 @@ tbody td.highlight{color:var(--success);font-weight:600;}
   <div class="logo">
     <span class="logo-icon" id="logoIcon">∫</span>
     <div>
-      <h1>NBS Solver</h1>
+      <h1>NBSE Solver</h1>
       <p class="logo-sub">Numerical Methods</p>
     </div>
   </div>
@@ -326,7 +326,7 @@ tbody td.highlight{color:var(--success);font-weight:600;}
     <div class="topbar-info" style="align-items:center;">
       <span id="iterCount">— iterations</span>
       <span id="rootDisplay">Root: —</span>
-      <button class="graph-btn" id="themeToggle" title="Toggle Theme" style="margin-left:10px;">☀️</button>
+      <button class="graph-btn" id="themeToggle" title="Toggle Theme" style="margin-left:10px;"></button>
     </div>
   </div>
 
@@ -479,6 +479,7 @@ tbody td.highlight{color:var(--success);font-weight:600;}
           </div>
         </div>
 
+
         <!-- Deriv keyboard -->
         <div class="calc-keyboard" id="calcKeyboardDeriv">
           <div class="kb-display">
@@ -541,6 +542,7 @@ tbody td.highlight{color:var(--success);font-weight:600;}
           <div class="input-group">
             <label>x₀ (Initial Guess)</label>
             <input type="number" id="newtonX0" placeholder="e.g. 1.5" step="any"/>
+            <span class="hint">Pick a value near the expected root; avoid where f'(x) ≈ 0</span>
           </div>
           <div class="input-group">
             <label>Tolerance</label>
@@ -559,6 +561,7 @@ tbody td.highlight{color:var(--success);font-weight:600;}
           <div class="input-group"><label>a (Lower Bound)</label><input type="number" id="bisA" placeholder="e.g. 1" step="any"/></div>
           <div class="input-group"><label>b (Upper Bound)</label><input type="number" id="bisB" placeholder="e.g. 2" step="any"/></div>
         </div>
+        <span class="hint" style="padding:0 20px;display:block;">a and b must bracket a root: f(a) and f(b) must have opposite signs</span>
         <div class="input-row">
           <div class="input-group"><label>Tolerance</label><input type="number" id="bisTol" value="0.000001" step="any"/></div>
           <div class="input-group"><label>Max Iterations</label><input type="number" id="bisMax" value="50"/></div>
@@ -571,6 +574,7 @@ tbody td.highlight{color:var(--success);font-weight:600;}
           <div class="input-group"><label>x₀ (First Guess)</label><input type="number" id="secX0" placeholder="e.g. 1" step="any"/></div>
           <div class="input-group"><label>x₁ (Second Guess)</label><input type="number" id="secX1" placeholder="e.g. 2" step="any"/></div>
         </div>
+        <span class="hint" style="padding:0 20px;display:block;">Two distinct starting points near the root; x₀ ≠ x₁ required</span>
         <div class="input-row">
           <div class="input-group"><label>Tolerance</label><input type="number" id="secTol" value="0.000001" step="any"/></div>
           <div class="input-group"><label>Max Iterations</label><input type="number" id="secMax" value="50"/></div>
@@ -1319,9 +1323,12 @@ function clearAll(){
 
 /* ─── Theme ─── */
 const themeBtn=$('themeToggle');
-function setTheme(light){document.body.classList.toggle('light-mode',light);themeBtn.textContent=light?'🌙':'☀️';localStorage.setItem('nbsTheme',light?'light':'dark');scheduleRender();}
+const ICON_SUN=`<svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="7.5" cy="7.5" r="2.5"/><line x1="7.5" y1="1" x2="7.5" y2="2.5"/><line x1="7.5" y1="12.5" x2="7.5" y2="14"/><line x1="1" y1="7.5" x2="2.5" y2="7.5"/><line x1="12.5" y1="7.5" x2="14" y2="7.5"/><line x1="2.93" y1="2.93" x2="3.99" y2="3.99"/><line x1="11.01" y1="11.01" x2="12.07" y2="12.07"/><line x1="12.07" y1="2.93" x2="11.01" y2="3.99"/><line x1="3.99" y1="11.01" x2="2.93" y2="12.07"/></svg>`;
+const ICON_MOON=`<svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 9.5a6 6 0 1 1-7-7 4.5 4.5 0 0 0 7 7z"/></svg>`;
+function setTheme(light){document.body.classList.toggle('light-mode',light);themeBtn.innerHTML=light?ICON_MOON:ICON_SUN;localStorage.setItem('nbsTheme',light?'light':'dark');scheduleRender();}
 themeBtn.addEventListener('click',()=>setTheme(!document.body.classList.contains('light-mode')));
 if(localStorage.getItem('nbsTheme')==='light') setTheme(true);
+else themeBtn.innerHTML=ICON_SUN;
 
 /* ─── Init ─── */
 applyMethodTheme('newton');
